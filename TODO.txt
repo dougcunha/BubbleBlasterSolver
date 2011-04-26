@@ -1,0 +1,3 @@
+
+- Pesquisar mecanismos de simulação de tabuleiro
+- Pesquisar modelos baseados em agentes
