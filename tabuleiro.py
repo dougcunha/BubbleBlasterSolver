@@ -3,15 +3,28 @@
     Classe que representa um tabuleiro de um tabuleiro de 
     Blubble Blast
 '''
-import celula
+import numpy
 
 class Tabuleiro:
-    celulas = []
+    celulas = {}
     def __init__(self):
-        self.celulas = [[Celula(0),Celula(0),Celula(0),Celula(0),Celula(0)]
-                        [Celula(0),Celula(0),Celula(0),Celula(0),Celula(0)]
-                        [Celula(0),Celula(0),Celula(0),Celula(0),Celula(0)]
-                        [Celula(0),Celula(0),Celula(0),Celula(0),Celula(0)]
-                        [Celula(0),Celula(0),Celula(0),Celula(0),Celula(0)]
-                        [Celula(0),Celula(0),Celula(0),Celula(0),Celula(0)]]
+       pass
+    
+    def tocar(self, linha, coluna):
+        self.celulas[linha, coluna] += 1
+        self.percorrer()
+
+    def iniciar(self, matriz):
+        self.celulas = matriz
+
+    def percorrer(self):
+        pass
+
+if __name__ == '__main__':
+    tab = Tabuleiro()
+    tab.iniciar({(1,1):1, (2,3): 3})
+    print tab.celulas
+    print tab.celulas[1,1]
+    tab.tocar(1, 1)
+    print tab.celulas[1,1]
 	
