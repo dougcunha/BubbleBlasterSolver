@@ -59,8 +59,7 @@ class Tabuleiro:
             >>> tab.celula(1, 2)
             0
         '''
-        if not self.celulaEhValida(linha, coluna):
-            return
+        if not self.celulaEhValida(linha, coluna): return
         self.tabuleiro[linha][coluna] += 1
         self.percorrer()
 
