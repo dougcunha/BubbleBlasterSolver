@@ -6,7 +6,7 @@
 import numpy
 
 class Tabuleiro:
-    celulas = []
+    tabuleiro = []
     acima = 1
     abaixo = 2
     esquerda = 3
@@ -14,6 +14,35 @@ class Tabuleiro:
     #__init__
     def __init__(self):
        pass
+
+    #resolvido
+    def resolvido(self):
+        '''
+           >>> tab = Tabuleiro()
+           >>> tab.iniciar([[1,2,1,3,4],[0,3,4,2,3],[4,3,4,2,3],[3,4,3,2,1],[2,3,4,3,4],[2,3,4,3,4]])
+           >>> tab.resolvido()
+           False
+           >>> tab.iniciar([[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]])
+           >>> tab.resolvido()
+           True
+        '''
+        for linha in range(0, self.linhas() - 1):
+            for coluna in range(0, self.colunas() - 1):
+                if self.celula(linha, coluna) != 0:
+                    return False
+        return True
+        
+
+    #novo
+    def novo(self, configuracao):
+        for linha in configuracao.splitlines():
+            if linha.strip() == '': continue
+            for coluna, valor in enumerate(linha.split()):
+                valor = int(valor)
+                if valor:
+                    self.tabuleiro[linha][coluna] = c
+            linha += 1
+
     
     #tocar
     def tocar(self, linha, coluna):
@@ -21,18 +50,18 @@ class Tabuleiro:
             >>> tab = Tabuleiro()
             >>> tab.iniciar([[1,2,1,3,4],[0,3,4,2,3],[4,3,4,2,3],[3,4,3,2,1],[2,3,4,3,4],[2,3,4,3,4]])
             >>> tab.tocar(0, 0)
-            >>> tab.celulas[0][0]
+            >>> tab.celula(0, 0)
             2
             >>> tab.tocar(0, 0)
-            >>> tab.celulas[0][0]
+            >>> tab.celula(0, 0)
             3
             >>> tab.tocar(1, 2)
-            >>> tab.celulas[1][2]
+            >>> tab.celula(1, 2)
             0
         '''
         if not self.celulaEhValida(linha, coluna):
             return
-        self.celulas[linha][coluna] += 1
+        self.tabuleiro[linha][coluna] += 1
         self.percorrer()
 
     #celulaEhValida
@@ -52,7 +81,7 @@ class Tabuleiro:
 
     #celula
     def celula(self, linha, coluna):
-        return self.celulas[linha][coluna]
+        return self.tabuleiro[linha][coluna]
         
     #obterCelulaNaoVazia
     def obterCelulaNaoVazia(self, linha, coluna, direcao):
@@ -86,7 +115,7 @@ class Tabuleiro:
 
     #iniciar
     def iniciar(self, matriz):
-        self.celulas = matriz
+        self.tabuleiro = matriz
 
     #percorrer
     def percorrer(self):
@@ -94,21 +123,21 @@ class Tabuleiro:
             >>> tab = Tabuleiro()
             >>> tab.iniciar([[5,2,1,3,4],[0,3,4,2,3],[4,3,4,2,3],[3,4,3,2,1],[2,3,4,3,4],[2,3,4,3,4]])
             >>> tab.percorrer()
-            >>> tab.celulas[0][0]
+            >>> tab.celula(0, 0)
             0
-            >>> tab.celulas[0][1]
+            >>> tab.celula(0, 1)
             3
-            >>> tab.celulas[1][0]
+            >>> tab.celula(1, 0)
             0
-            >>> tab.celulas[2][0]
+            >>> tab.celula(2, 0)
             0
-            >>> tab.celulas[3][0]
+            >>> tab.celula(3, 0)
             4
         """
         for linha in range(0, self.linhas() - 1):
             for coluna in range(0, self.colunas() - 1):
                 if self.celula(linha, coluna) == 5:
-                    self.celulas[linha][coluna] = 0
+                    self.tabuleiro[linha][coluna] = 0
                     
                     x, y = self.obterCelulaNaoVazia(linha - 1, coluna, self.acima)
                     self.tocar(x, y)
@@ -124,32 +153,24 @@ class Tabuleiro:
 
     #linhas
     def linhas(self):
-        return len(self.celulas)
+        return len(self.tabuleiro)
     
     #colunas
     def colunas(self):
         if self.linhas == 0: return 0
-        return len(self.celulas[0])
+        return len(self.tabuleiro[0])
     
     #imprimir
     def imprimir(self, linha, coluna):
-        print self.celulas[linha][coluna]
+        print self.tabuleiro[linha][coluna]
 
     #__repr__
     def __repr__(self):
         return "Tabuleiro de %d linhas e %d colunas\n %s" % (self.linhas(), self.colunas(), \
-                                                          [linha for linha in self.celulas])
+                                                          [linha for linha in self.tabuleiro])
                                                         
 
 if __name__ == '__main__':
-    '''tab = Tabuleiro()
-    tab.iniciar([
-        [1,2,1,3,4],
-        [0,3,4,2,3],
-        [4,3,4,2,3],
-        [3,4,3,2,1],
-        [2,3,4,3,4],
-        [2,3,4,3,4]]) '''
     import doctest
     doctest.testmod()
     
