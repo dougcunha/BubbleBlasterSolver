@@ -1,0 +1,29 @@
+
+==========
+References
+==========
+
+A good way to represent the board state is to map bubble positions to a adjacent matrix.
+
+Thinking on a small 4x4 board, for example::
+
+	   0 1 2 3
+	   - - - -
+	0| 4 4 0 3
+	1| 0 1 4 2
+	2| 4 0 1 4
+	3| 4 4 3 4
+	
+Each non zero number represents a bubble state, where 4 is the last before the buble blast.
+
+This could be represented by this adjacent list:
+
+0-0 -> 0-1, 0-2
+0-1 -> 0-0, 1-1, 0-3
+0-3 -> 0-1, 1-3
+1-1 -> 0-1, 1-2, 3-1
+
+
+http://www.python.org/doc/essays/graphs/
+
+
