@@ -8,18 +8,36 @@ def scoreboard(board):
     """
     return sum(board.values())
 
-def newboard(self, game):
-    ln = 0
+def newboard(game):
+    row = 0
     board = {}
-    for l in game.splitlines():
-        if l.strip() == '': continue
-        for cn, c in enumerate(l.split()):
-            c = int(c)
-            if c:
-                board[cn, ln] = c
+    for line in game.splitlines():
+        if line.strip() == '': continue
+        for col, value in enumerate(line.split()):
+            value = int(value)
+            if value:
+                board[col, row] = value
+        row += 1
     return board
 
-def touch(board, pos, y=None):
+def board2str(board):
+    """
+    >>> b = {(0,0): 4, (0,1): 4, (1,1): 1, (1,2): 4, (2,0): 4, (2,2): 1}
+    >>> print board2str(b)
+    4 0 4
+    4 1 0
+    0 4 1
+    """
+    max_col, max_row = board_dimensions(board)
+    r = []
+    for row in xrange(max_row+1):
+        for col in xrange(max_col+1):
+            r.append(str(board.get((col, row), 0)))
+        r.append('\n')
+    return ' '.join(r).replace(' \n ', '\n').replace(' \n', '')
+    
+
+def touch(board, pos, row=None):
     """
     >>> b = {(0,0): 4, (0,1): 4, (1,1): 1, (1,2): 4, (2,0): 4, (2,2): 1}
     >>> touch(b, (0,0))
@@ -29,12 +47,12 @@ def touch(board, pos, y=None):
     >>> b
     {(2, 2): 3, (1, 1): 3}
     """
-    if y != None: 
-        x = pos
+    if row != None: 
+        col = pos
     else: 
-        x, y = pos
+        col, row = pos
     
-    places = [(0, (x, y))]
+    places = [(0, (col, row))]
     
     while places:
         i, place = places.pop()
@@ -44,12 +62,19 @@ def touch(board, pos, y=None):
             continue
         if value < 4: 
             board[place] += 1
+            #print place, 'increased to %d' % (board.get(place))
             continue
         
         del board[place]
+        #print place, 'exploded'
         
         places.extend(find_neighbours(board, place))
         places.sort()
+        
+def board_dimensions(board):
+    max_row = max([r for c, r in board.keys()])
+    max_col = max([c for c, r in board.keys()])
+    return max_col, max_row
 
 def find_neighbours(board, position):
     """
@@ -62,9 +87,7 @@ def find_neighbours(board, position):
     """
     
     col, row = position
-    
-    max_row = max([r for c, r in board.keys()])
-    max_col = max([c for c, r in board.keys()])
+    max_col, max_row = board_dimensions(board)
     
     places = []
     #up
