@@ -4,19 +4,10 @@
     Blubble Blast
 '''
 import numpy
-
-class Bubble:
-    def __init__(self, row, col, board):
-        self.row = row
-        self.col = col
-        self.board = board
+from bubble import *
 
 class Tabuleiro:
     tabuleiro = []
-    acima = 1
-    abaixo = 2
-    esquerda = 3
-    direita = 4
     #__init__
     def __init__(self):
        pass

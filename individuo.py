@@ -58,8 +58,8 @@ class Individuo:
         '''
             >>> ind = Individuo([[0,0], [1,2], [1,3], [0,1]], 6, 5)
             >>> mutante = ind.mutar()
-            >>> mutante.toques
-            [[0, 0], [1, 2], [1, 3], [0, 1]]
+            >>> mutante.toques[0] != [0, 0]
+            True
         '''        
         gene = [[random.randrange(0,self.linhas), random.randrange(0,self.colunas)]]        
         return Individuo(gene + self.obterToques(1, self.tamanho()),

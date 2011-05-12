@@ -1,7 +1,7 @@
 import tabuleiro
 
 class BubbleIterator:
-    up = 0
+    up = [-1, 0]
     down = 1
     left = 2
     rigth = 3

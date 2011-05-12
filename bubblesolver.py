@@ -8,4 +8,6 @@ import random
 '''
 class Procriador:
 	def __init__():
-		
+		pass
+	
+			
