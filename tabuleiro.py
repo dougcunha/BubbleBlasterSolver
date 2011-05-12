@@ -1,9 +1,15 @@
 # -*- coding: latin1 -*-
 '''
-    Classe que representa um tabuleiro de um tabuleiro de 
+    Classe que representa um tabuleiro de 
     Blubble Blast
 '''
 import numpy
+
+class Bubble:
+    def __init__(self, row, col, board):
+        self.row = row
+        self.col = col
+        self.board = board
 
 class Tabuleiro:
     tabuleiro = []
@@ -15,6 +21,18 @@ class Tabuleiro:
     def __init__(self):
        pass
 
+    #bubble
+    def bubble(self, linha, coluna):
+        '''
+            >>> tab = Tabuleiro()
+            >>> tab.iniciar([[1,2,1,3,4],[0,3,4,2,3],[4,3,4,2,3],[3,4,3,2,1],[2,3,4,3,4],[2,3,4,3,4]])
+            >>> tab.bubble(1,1).row
+            1
+            >>> tab.bubble(1,1).col
+            1
+        '''
+        return Bubble(linha, coluna, self)
+    
     #resolvido
     def resolvido(self):
         '''
@@ -32,7 +50,10 @@ class Tabuleiro:
                     return False
         return True
         
-
+    #celulaEhVazia
+    def celulaEhVazia(self, linha, coluna):
+        return self.celula(linha, coluna) == 0;
+    
     #novo
     def novo(self, configuracao):
         for linha in configuracao.splitlines():
@@ -153,7 +174,7 @@ class Tabuleiro:
     #linhas
     def linhas(self):
         return len(self.tabuleiro)
-    
+        
     #colunas
     def colunas(self):
         if self.linhas == 0: return 0
