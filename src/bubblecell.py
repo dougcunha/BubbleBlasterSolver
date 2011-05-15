@@ -25,8 +25,7 @@ class BubbleCell:
             >>> board.get([2,0]).level
             4
         '''
-        if count == 0: return
-        if self.level == 0: return
+        if count == 0 or self.level == 0: return
         self.level += 1
         if self.level == 5:
             self.level = 0

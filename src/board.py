@@ -55,8 +55,13 @@ class Board:
     def executeBubbles(self):
         if len(self.bubbles) == 0:
             return True
-        for i in range(len(self.bubbles) -1, -1, -1):
-            self.bubbles[i].dowalk()
+        lista = range(len(self.bubbles) -1, -1, -1)
+        for i in lista:
+            if self.bubbles[i].active:
+                self.bubbles[i].dowalk()
+        for i in lista:
+            if not self.bubbles[i].active: 
+                self.bubbles.remove(self.bubbles[i])
         return self.executeBubbles()
     
     #get
@@ -68,11 +73,6 @@ class Board:
     def addbubbles(self, bubbles):
         for bubble in bubbles:
             self.bubbles.append(bubble)
-        
-    #removebubble
-    def removebubble(self, bubble):
-        if bubble in self.bubbles:
-            self.bubbles.remove(bubble)
     
     #isegual(self, config)
     def isequal(self, config):

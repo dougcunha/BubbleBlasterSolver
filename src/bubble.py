@@ -4,9 +4,12 @@ from step import *
 
 class Bubble():
     def __init__(self, board, position, step):
-        self.position = position        
+        self.position = []
+        self.position.append(position[0])
+        self.position.append(position[1])        
         self.board = board
         self.step = step
+        self.active = True
         
     def dowalk(self):
         '''
@@ -55,11 +58,11 @@ class Bubble():
         if not self.validate(): return
         if not self.board.get(self.position).isblasted():
             self.board.get(self.position).touch()
-            self.removeyourself()
+            self.active = False
     
     def validate(self):
-        if not self.isValid():
-            self.removeyourself()
+        if not self.active or not self.isValid():
+            self.active = False
             return False
         return True
         
@@ -78,9 +81,6 @@ class Bubble():
             0
         '''
         return self.position[0]
-    
-    def removeyourself(self):
-        self.board.removebubble(self)
         
     def isValid(self):
         return self.board.isValid(self.position)
