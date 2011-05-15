@@ -1,4 +1,4 @@
-﻿from board import *
+from board import *
 from step import *
 from bubble import *
 
@@ -12,7 +12,7 @@ class BubbleCell:
     def isblasted(self):
         return self.level == 0
         
-    def touch(self):
+    def touch(self, count=1):
         '''
             >>> board = Board([[1,2,1,4], [2,3,4,3], [3,2,4,1], [1,0,2,3]])
             >>> board.get([0,0]).level
@@ -25,11 +25,14 @@ class BubbleCell:
             >>> board.get([2,0]).level
             4
         '''
+        if count == 0: return
         if self.level == 0: return
         self.level += 1
         if self.level == 5:
             self.level = 0
             self.doBlast()
+        count -= 1
+        self.touch(count)
     
     def doBlast(self):
         bubbles = []
@@ -39,6 +42,9 @@ class BubbleCell:
         bubbles.append(Bubble(self.board, self.position, Step.rigth))
         self.board.addbubbles(bubbles)
         
+        
+    def __repr__(self):
+        return "[%d,%d]=%d" % (self.position[0], self.position[1], self.level)
 if __name__ == '__main__':
     import doctest
     doctest.testmod()

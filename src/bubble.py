@@ -20,10 +20,7 @@ class Bubble():
             >>> t.get(b.position).level
             3
             >>> t = Board([[1,2,1,3,4],[0,3,4,2,3],[4,3,4,2,3],[3,4,3,2,1],[2,3,4,3,4],[2,3,4,3,4]])
-            >>> t.get([0,0]).touch()
-            >>> t.get([0,0]).touch()
-            >>> t.get([0,0]).touch()
-            >>> t.get([0,0]).touch()
+            >>> t.get([0,0]).touch(4)
             >>> len(t.bubbles)
             4
             >>> t.bubbles[0].position
@@ -40,6 +37,17 @@ class Bubble():
             0
             >>> t.get([2,0]).level
             0
+            >>> t.get([0,1]).level
+            3
+            >>> t.get([2,0]).touch()
+            >>> t.executeBubbles()
+            True
+            >>> t.get([2,0]).level
+            0
+            >>> t.get([2,1]).level
+            4
+            >>> t.get([3,0]).level
+            4
         '''
         if not self.validate(): return
         self.position[0] += self.step[0]

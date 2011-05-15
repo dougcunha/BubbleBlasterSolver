@@ -5,7 +5,8 @@ import unittest
 
 class TestTouch(unittest.TestCase):
     def setUp(self):        
-        self.tab = Board('''
+        self.tab = \
+        Board('''
         1 2 1 3 4
         0 3 4 2 3
         4 3 4 2 3
@@ -13,13 +14,31 @@ class TestTouch(unittest.TestCase):
         2 3 4 3 4
         2 3 4 3 4
         ''')
+        self.config1 = \
+        '''
+        2 2 1 3 4
+        0 3 4 2 3
+        4 3 4 2 3
+        3 4 3 2 1
+        2 3 4 3 4
+        2 3 4 3 4
+        '''
+        self.config2 = \
+        '''
+        0 3 1 3 4
+        0 3 4 2 3
+        0 3 4 2 3
+        4 4 3 2 1
+        2 3 4 3 4
+        2 3 4 3 4
+        '''
 
     def testTouch(self):
         self.assertEqual(self.tab.rows(), 6)
         self.assertEqual(self.tab.cols(), 5)
         self.tab.get([0,0]).touch()
         self.tab.executeBubbles()
-        self.assertEqual(self.tab.get([0,0]).level, 2)
+        self.assertTrue(self.tab.isequal(self.config1))
         self.tab.get([0,0]).touch()
         self.tab.executeBubbles()
         self.assertEqual(self.tab.get([0,0]).level, 3)
@@ -28,11 +47,7 @@ class TestTouch(unittest.TestCase):
         self.assertEqual(self.tab.get([0,0]).level, 4)
         self.tab.get([0,0]).touch()
         self.tab.executeBubbles()
-        self.assertEqual(self.tab.get([0,0]).level, 0)
-        self.assertEqual(self.tab.get([0,1]).level, 3)
-        self.assertEqual(self.tab.get([1,0]).level, 0)
-        self.assertEqual(self.tab.get([2,0]).level, 0)
-        self.assertEqual(self.tab.get([3,0]).level, 4)
+        self.assertEqual(str(self.tab), str(Board(self.config2)))
 
 if __name__ == '__main__':
     unittest.main()
