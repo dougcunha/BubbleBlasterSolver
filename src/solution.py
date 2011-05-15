@@ -15,9 +15,9 @@ class Solution:
             self.generateRandomTouchs()   
         
     def generateRandomTouchs(self):
-        self.touchs = []
+        self.touchs = []             
         for i in range(0, self.board.max):
-            touch = [[random.randrange(0,self.board.rows()), random.randrange(0,self.board.cols())]]
+            touch = [random.choice(range(0, self.board.rows())), random.choice(range(0, self.board.cols()))]
             self.touchs.append(touch)
     #tamanho    
     def __len__(self):
@@ -26,7 +26,8 @@ class Solution:
     #score
     def score(self):
         for touch in self.touchs:
-            self.board.get([touch]).touch()
+            if self.board.isValid(touch):
+                self.board.get(touch).touch()
             self.board.executeBubbles()
         pt = self.board.score()
         self.board.reset()            

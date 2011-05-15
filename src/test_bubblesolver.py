@@ -20,10 +20,12 @@ class TestBubbleSolver():
     def testSoluction(self):
         proc = Procriator(self.board, 10, 3)
         proc.createGeneration()
-        max = 5000
+        max = 1000
         winner = proc.check()
         while not winner and max > 0:
             proc.naturalSelection()
+            #for x in proc.generation:
+            #    print x, " -> ", x.score() 
             winner = proc.check()
             if winner: break
             max -=1
@@ -32,7 +34,7 @@ class TestBubbleSolver():
             print "There is a solution: %s" % (winner)
         else:
             for x in proc.generation:
-                print x
+                print x , " -> ", x.score()
         
         
 

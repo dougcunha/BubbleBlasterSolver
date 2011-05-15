@@ -12,7 +12,7 @@ class Procriator:
         self.mutationgenes = mutationgenes
         
     def check(self):
-        solution = filter(lambda i: i.score == 0, self.generation)
+        solution = filter(lambda i: i.score() == 0, self.generation)
         return solution
     
     def getCompetitors(self):
@@ -46,7 +46,7 @@ class Procriator:
             self.generation.append(Solution([], self.board))            
         
     def getBest(self, competitors):
-        competitors.sort(key=lambda c: c.score, reverse=True)
+        competitors.sort(key=lambda c: c.score(), reverse=True)
         return competitors[0]
         
         
