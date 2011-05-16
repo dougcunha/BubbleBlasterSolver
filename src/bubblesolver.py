@@ -34,10 +34,14 @@ class Procriator:
             selecteds.append(winner)
             self.tournaments.remove(winner)
             
+        selecteds.sort(key=lambda c: c.score(), reverse=True)
+            
         for i in range(0, len(selecteds) - 2, 2):
             childs.append(selecteds[i].doCross(selecteds[i+1]))
+            
         childs.append(selecteds[-1].doMutation(self.mutationgenes))
         childs.append(selecteds[-2].doMutation(self.mutationgenes))
+        
         self.generation = selecteds + childs
             
     def createGeneration(self):

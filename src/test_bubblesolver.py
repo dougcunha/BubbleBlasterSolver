@@ -8,19 +8,27 @@ from step import *
 class TestBubbleSolver():
     def __init__(self):
         #pct 2 - 2 toques 3
+        #self.board = Board('''
+        #1 2 4 1 3
+        #0 1 3 4 3
+        #0 4 0 4 2
+        #1 0 4 4 4
+        #2 3 2 3 4
+        #3 1 1 0 2
+        #''', 3)
         self.board = Board('''
-        1 2 4 1 3
-        0 1 3 4 3
-        0 4 0 4 2
-        1 0 4 4 4
-        2 3 2 3 4
-        3 1 1 0 2
-        ''', 3)
+        0 2 2 0 1
+        1 4 0 0 1
+        1 4 3 2 2
+        0 1 2 2 2
+        2 4 4 4 0
+        2 2 3 2 0
+        ''', 7)
         
     def testSoluction(self):
-        proc = Procriator(self.board, 10, 3)
+        proc = Procriator(self.board, 100, 2)
         proc.createGeneration()
-        max = 1000
+        max = 100
         winner = proc.check()
         while not winner and max > 0:
             proc.naturalSelection()

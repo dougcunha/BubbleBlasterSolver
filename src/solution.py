@@ -12,12 +12,33 @@ class Solution:
         self.touchs = touchs
         self.board = board  
         if self.touchs == []:
-            self.generateRandomTouchs()   
+            self.generateRandomTouchs()
+            
+    def getPossibleTouchs(self):
+        def f(x): return self.board.get(x).level > 0        
+        possibletouchs = filter(f, self.board.board)        
+        possibletouchsPonderated = []
+        
+        for i in possibletouchs:
+            rg = 1
+            if self.board.board.get(i).level == 3:
+                rg = 10
+            elif self.board.board.get(i).level == 4:
+                rg = 50               
+            for y in range(0, rg):
+                possibletouchsPonderated.append(i)
+        return possibletouchsPonderated   
         
     def generateRandomTouchs(self):
-        self.touchs = []             
+        self.touchs = []
+        
+        possibles = self.getPossibleTouchs()                        
+             
         for i in range(0, self.board.max):
-            touch = [random.choice(range(0, self.board.rows())), random.choice(range(0, self.board.cols()))]
+            count = 0
+            while count < 50:
+                touch = random.choice(possibles)
+                if not self.board.get(touch).isblasted(): break
             self.touchs.append(touch)
     #tamanho    
     def __len__(self):
@@ -82,9 +103,10 @@ class Solution:
             >>> mutante.touchs[0] != [0, 0]
             True
         '''   
+        possibles = self.getPossibleTouchs()
         gene = []
         for i in range(0, genes):
-            gene.append([random.randrange(0,self.board.rows()), random.randrange(0,self.board.cols())])
+            gene.append(random.choice(possibles))
                 
         return Solution(gene + self.getTouchs(genes, self.__len__()),
                          self.board)
