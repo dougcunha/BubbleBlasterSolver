@@ -14,7 +14,7 @@ Thinking on a small 4x4 board, for example::
 	2| 4 0 1 4
 	3| 4 4 3 4
 	
-Each non zero number represents a bubble state, where 4 is the last before the buble blast.
+Each non zero number represents a bubble state, where 4 is the last before the bubble blast.
 
 This could be represented by this adjacent list:
 
