@@ -27,15 +27,11 @@ class TestBoard(unittest.TestCase):
         score = board.scoreboard(self.b)
         self.assertEqual(score, 65)
         
-    def _testTouch(self):
-        board.touch(self.b, (3,4))
-        #print board.board2str(self.b)
-        board.touch(self.b, (4,4))
-        board.touch(self.b, (0,2))
-        board.touch(self.b, (0,2))
+    def testTouchOutOfABubble(self):
+        b2 = self.b.copy()
+        board.touch(self.b, (0, 3))
+        self.assertEqual(self.b, b2)
         
-        score = board.scoreboard(self.b)
-        self.assertEqual(score, 0)
         
 class TestBoardStateAfterTouchs(unittest.TestCase):
     
@@ -109,6 +105,60 @@ class TestBoardStateAfterTouchs(unittest.TestCase):
             0 0 0 0 0
             0 0 0 0 0
             3 3 0 0 4
+            """)
+        self.assertEquals(self.b, b2)
+        
+    def testTouchToSolve(self):
+        board.touch(self.b, (4,1))
+        self.assertEqual(board.scoreboard(self.b), 50)
+
+        b2 = board.newboard(
+            """
+            4 4 2 2 1
+            0 0 2 3 4
+            0 0 0 4 4
+            3 0 0 3 4
+            0 0 0 0 4
+            3 0 0 0 3
+            """)
+        self.assertEquals(self.b, b2)
+
+        board.touch(self.b, (1,4))
+
+        b2 = board.newboard(
+            """
+            4 4 3 0 0
+            0 0 3 0 0
+            0 0 0 0 0
+            4 0 0 0 0
+            0 0 0 0 0
+            4 0 0 0 0
+            """)
+        self.assertEquals(self.b, b2)
+
+        board.touch(self.b, (0,1))
+
+        b2 = board.newboard(
+            """
+            0 0 0 0 0
+            0 0 4 0 0
+            0 0 0 0 0
+            0 0 0 0 0
+            0 0 0 0 0
+            0 0 0 0 0
+            """)
+        self.assertEquals(self.b, b2)
+
+        board.touch(self.b, (1,2))
+        
+        b2 = board.newboard(
+            """
+            0 0 0 0 0
+            0 0 0 0 0
+            0 0 0 0 0
+            0 0 0 0 0
+            0 0 0 0 0
+            0 0 0 0 0
             """)
         self.assertEquals(self.b, b2)
 

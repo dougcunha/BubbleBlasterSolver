@@ -1,5 +1,7 @@
 #coding: utf-8
 
+import itertools
+
 def scoreboard(board):
     """
     >>> s = scoreboard({(0,1): 4, (0,2): 3, (1,2): 5})
@@ -52,14 +54,18 @@ def touch(board, pos, col=None):
     else: 
         row, col = pos
     
-    places = [(0, (row, col))]
+    places = [iter([(row, col)])]
+    placesiter = get_dropsiter(places)
     
-    while places:
-        i, place = places.pop()
+    for place in placesiter:
         
         value = board.get(place, 0)
         if value == 0: 
             continue
+        
+        #notifies that this drop found something
+        placesiter.send(1)
+        
         if value < 4: 
             board[place] += 1
             #print place, 'increased to %d' % (board.get(place))
@@ -68,58 +74,66 @@ def touch(board, pos, col=None):
         del board[place]
         #print place, 'exploded'
         
-        places.extend(find_neighbours(board, place))
-        places.sort()
+        places.extend(get_drops(board, place))
         
 def board_dimensions(board):
-    max_row = max([r for r, c in board.keys()])
-    max_col = max([c for r, c in board.keys()])
+    if len(board) == 0: 
+        return (0,0)
+    max_row = max([r for r, _ in board.keys()])
+    max_col = max([c for _, c in board.keys()])
     return max_row, max_col
+
+def get_drops(board, position):
+    row, col = position
+    max_row, max_col = board_dimensions(board)
+    
+    drops = []
+    
+    drops.append(((newrow, col) for newrow in xrange(row-1, -1, -1))) #up
+    drops.append(((row, newcol) for newcol in xrange(col+1, max_col+1))) #right
+    drops.append(((newrow, col) for newrow in xrange(row+1, max_row+1))) #bottom
+    drops.append(((row, newcol) for newcol in xrange(col-1, -1, -1))) #left
+    
+    return drops
+
+def get_dropsiter(drops):
+    while drops:
+        i = 0
+        while i < len(drops):
+            drop = drops[i]
+            try:
+                place = drop.next()
+                found = (yield place)
+                if found == 1:
+                    drops.remove(drop)
+                    (yield place)
+                    continue
+                
+                i += 1                                   
+            except StopIteration:
+                drops.remove(drop)
+                
 
 def find_neighbours(board, position):
     """
     >>> b = {(0,0): 3, (0,1): 3, (1,1): 3, (1,2): 4, (2,0): 4, (2,2): 2, (3,1): 2}
     >>> find_neighbours(b, (1,1))
-    [(0, (0, 1)), (0, (1, 2)), (1, (3, 1))]
+    [(0, 1), (1, 2), (3, 1)]
     >>> b = {(0,0): 4, (0,1): 4, (1,1): 1, (1,2): 4, (2,0): 4, (2,2): 1}
     >>> find_neighbours(b, (0,0))
-    [(0, (0, 1)), (1, (2, 0))]
+    [(0, 1), (2, 0)]
     """
     
-    row, col = position
-    max_row, max_col = board_dimensions(board)
-    
+    drops = get_drops(board, position)
     places = []
-    #up
-    for i, newrow in enumerate(range(row-1, -1, -1)):
-        place = (newrow, col)
+    dropsi = get_dropsiter(drops)
+    for place in dropsi:   
         if board.has_key(place):
-            places.append((i,place))
-            break
-
-    #right
-    for i, newcol in enumerate(range(col+1, max_col+1)):
-        place = (row, newcol)
-        if board.has_key(place):
-            places.append((i,place))
-            break
-
-    #bottom
-    for i, newrow in enumerate(range(row+1, max_row+1)):
-        place = (newrow, col)
-        if board.has_key(place):
-            places.append((i,place))
-            break
+            places.append(place)
+            dropsi.send(1)
     
-    #left
-    for i, newcol in enumerate(range(col-1, -1, -1)):
-        place = (row, newcol)
-        if board.has_key(place):
-            places.append((i,place))
-            break
-         
-    places.sort()
     return places
+
         
 if __name__ == '__main__':
     import doctest
