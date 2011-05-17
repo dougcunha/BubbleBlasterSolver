@@ -6,6 +6,7 @@ sys.path.append(realpath('../bbs'))
 
 import unittest
 import board
+from heuristcs import sumOfUndropedBubbles as scoreboard
 
 class TestBoard(unittest.TestCase):
     
@@ -24,7 +25,7 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(len(self.b), 26)
 
     def testScoreBoard(self):
-        score = board.scoreboard(self.b)
+        score = scoreboard(self.b)
         self.assertEqual(score, 65)
         
     def testTouchOutOfABubble(self):
@@ -110,7 +111,7 @@ class TestBoardStateAfterTouchs(unittest.TestCase):
         
     def testTouchToSolve(self):
         board.touch(self.b, (4,1))
-        self.assertEqual(board.scoreboard(self.b), 50)
+        self.assertEqual(scoreboard(self.b), 30)
 
         b2 = board.newboard(
             """
