@@ -1,7 +1,5 @@
 #coding: utf-8
 
-import itertools
-
 def scoreboard(board):
     """
     >>> s = scoreboard({(0,1): 4, (0,2): 3, (1,2): 5})
@@ -84,6 +82,7 @@ def board_dimensions(board):
     return max_row, max_col
 
 def get_drops(board, position):
+    """Returns a list of generated drops vectors."""
     row, col = position
     max_row, max_col = board_dimensions(board)
     
@@ -97,6 +96,14 @@ def get_drops(board, position):
     return drops
 
 def get_dropsiter(drops):
+    """Iterates over a list of generated drops vectors.
+    Call iter.send(1) to notify that the last drop vector bumped
+    >>> b1 = ((x, 1) for x in xrange(0, 3))
+    >>> b2 = ((6, x) for x in xrange(10, 14))
+    >>> biter = get_dropsiter([b1, b2])
+    >>> list(biter)
+    [(0, 1), (6, 10), (1, 1), (6, 11), (2, 1), (6, 12), (6, 13)]
+    """
     while drops:
         i = 0
         while i < len(drops):
