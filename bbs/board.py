@@ -16,7 +16,7 @@ def newboard(game):
         for col, value in enumerate(line.split()):
             value = int(value)
             if value:
-                board[col, row] = value
+                board[row, col] = value
         row += 1
     return board
 
@@ -24,20 +24,20 @@ def board2str(board):
     """
     >>> b = {(0,0): 4, (0,1): 4, (1,1): 1, (1,2): 4, (2,0): 4, (2,2): 1}
     >>> print board2str(b)
-    4 0 4
-    4 1 0
-    0 4 1
+    4 4 0
+    0 1 4
+    4 0 1
     """
-    max_col, max_row = board_dimensions(board)
+    max_row, max_col = board_dimensions(board)
     r = []
     for row in xrange(max_row+1):
         for col in xrange(max_col+1):
-            r.append(str(board.get((col, row), 0)))
+            r.append(str(board.get((row, col), 0)))
         r.append('\n')
     return ' '.join(r).replace(' \n ', '\n').replace(' \n', '')
     
 
-def touch(board, pos, row=None):
+def touch(board, pos, col=None):
     """
     >>> b = {(0,0): 4, (0,1): 4, (1,1): 1, (1,2): 4, (2,0): 4, (2,2): 1}
     >>> touch(b, (0,0))
@@ -47,12 +47,12 @@ def touch(board, pos, row=None):
     >>> b
     {(2, 2): 3, (1, 1): 3}
     """
-    if row != None: 
-        col = pos
+    if col != None: 
+        row = pos
     else: 
-        col, row = pos
+        row, col = pos
     
-    places = [(0, (col, row))]
+    places = [(0, (row, col))]
     
     while places:
         i, place = places.pop()
@@ -72,9 +72,9 @@ def touch(board, pos, row=None):
         places.sort()
         
 def board_dimensions(board):
-    max_row = max([r for c, r in board.keys()])
-    max_col = max([c for c, r in board.keys()])
-    return max_col, max_row
+    max_row = max([r for r, c in board.keys()])
+    max_col = max([c for r, c in board.keys()])
+    return max_row, max_col
 
 def find_neighbours(board, position):
     """
@@ -86,34 +86,34 @@ def find_neighbours(board, position):
     [(0, (0, 1)), (1, (2, 0))]
     """
     
-    col, row = position
-    max_col, max_row = board_dimensions(board)
+    row, col = position
+    max_row, max_col = board_dimensions(board)
     
     places = []
     #up
     for i, newrow in enumerate(range(row-1, -1, -1)):
-        place = (col, newrow)
+        place = (newrow, col)
         if board.has_key(place):
             places.append((i,place))
             break
 
     #right
     for i, newcol in enumerate(range(col+1, max_col+1)):
-        place = (newcol, row)
+        place = (row, newcol)
         if board.has_key(place):
             places.append((i,place))
             break
 
     #bottom
     for i, newrow in enumerate(range(row+1, max_row+1)):
-        place = (col, newrow)
+        place = (newrow, col)
         if board.has_key(place):
             places.append((i,place))
             break
     
     #left
     for i, newcol in enumerate(range(col-1, -1, -1)):
-        place = (newcol, row)
+        place = (row, newcol)
         if board.has_key(place):
             places.append((i,place))
             break
