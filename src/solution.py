@@ -8,11 +8,9 @@ import random
 '''
 class Solution:
     #__init__    
-    def __init__(self, touchs, board):
-        self.touchs = touchs
+    def __init__(self, board):
         self.board = board  
-        if self.touchs == []:
-            self.generateRandomTouchs()
+        self.generateRandomTouchs()
             
     def getPossibleTouchs(self):
         def f(x): return self.board.get(x).level > 0        
@@ -20,29 +18,25 @@ class Solution:
         possibletouchsPonderated = []
         
         for i in possibletouchs:
-            rg = 1
-            if self.board.board.get(i).level == 3:
-                rg = 10
-            elif self.board.board.get(i).level == 4:
-                rg = 50               
+            rg = 5 - self.board.board.get(i).level 
             for y in range(0, rg):
                 possibletouchsPonderated.append(i)
         return possibletouchsPonderated   
         
     def generateRandomTouchs(self):
-        self.touchs = []
-        
-        possibles = self.getPossibleTouchs()                        
+        self.touchs = []                                
              
         for i in range(0, self.board.max):
-            count = 0
-            while count < 50:
-                touch = random.choice(possibles)
-                if not self.board.get(touch).isblasted(): break
+            possibles = self.getPossibleTouchs()
+            if len(possibles) == 0: break            
+            touch = random.choice(possibles)
+            self.board.get(touch).touch()
+            self.board.executeBubbles()
             self.touchs.append(touch)
+        self.board.reset()
     #tamanho    
     def __len__(self):
-        return len(self.touchs)
+        return self.board.max
     
     #score
     def score(self):
@@ -91,10 +85,11 @@ class Solution:
              >>> filho.touchs
              [[0, 0], [0, 3], [3, 2]]
         '''
-        part = self.__len__() / 2        
-        return Solution(self.getTouchs(0, part) + \
-                         another.getTouchs(part, another.__len__()),
-                         self.board)
+        part = self.__len__() / 2
+        solution = Solution(self.board)
+        solution.touchs = self.getTouchs(0, part) + \
+                          another.getTouchs(part, another.__len__())         
+        return solution
     #mutar
     def doMutation(self, genes = 1):
         '''
@@ -108,8 +103,9 @@ class Solution:
         for i in range(0, genes):
             gene.append(random.choice(possibles))
                 
-        return Solution(gene + self.getTouchs(genes, self.__len__()),
-                         self.board)
+        solution = Solution(self.board)
+        solution.touchs = gene + self.getTouchs(genes, self.__len__())
+        return solution
         
     def __repr__(self):
         return str(self.touchs)

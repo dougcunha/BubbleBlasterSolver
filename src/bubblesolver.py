@@ -47,7 +47,7 @@ class Procriator:
     def createGeneration(self):
         self.generation = []        
         for i in range(0, self.size):
-            self.generation.append(Solution([], self.board))            
+            self.generation.append(Solution(self.board))            
         
     def getBest(self, competitors):
         competitors.sort(key=lambda c: c.score(), reverse=True)

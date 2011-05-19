@@ -24,9 +24,8 @@ class Board:
         self.newBoard(self.config)
         
     #newFromStr
-    def newFromStr(self, str, maxTouchs = 5):
+    def newFromStr(self, str):
         row = 0
-        self.max = maxTouchs
         self.config = []
         self.board = {}
         self.bubbles = []
@@ -38,10 +37,10 @@ class Board:
                 l.append(value)
             row += 1
             self.config.append(l)
-        return self.newBoard(self.config, maxTouchs)
+        return self.newBoard(self.config)
 
     #newBoard
-    def newBoard(self, config, maxTouchs = 5):
+    def newBoard(self, config):
         '''
             >>> b = Board([[1,2,3,4],[2,3,4,5],[5,4,2,3]])
             >>> b.rows()
@@ -52,7 +51,6 @@ class Board:
             '2-4-1-4-3-5-5-3-2-2-4-3'
         '''
         self.config = config
-        self.max = maxTouchs
         self.board = {}
         self.bubbles = []
         for row in range(0, len(self.config)):

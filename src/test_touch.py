@@ -32,6 +32,45 @@ class TestTouch(unittest.TestCase):
         2 3 4 3 4
         2 3 4 3 4
         '''
+        self.config3 = \
+        '''
+        0 0 0 0 0
+        0 0 0 0 0
+        0 0 0 0 0
+        0 0 0 0 0
+        0 0 0 0 0
+        0 0 0 0 0
+        '''
+        
+        self.config4 = \
+        '''
+        1 2 4 1 3
+        0 1 3 4 3
+        0 4 0 4 2
+        1 0 4 4 4
+        2 3 2 3 4
+        2 1 1 0 2
+        '''
+        
+        self.config5 = \
+        '''
+        2 0 0 0 0
+        0 0 0 0 0
+        0 0 0 0 0
+        4 0 0 0 0
+        3 0 0 0 0
+        4 0 0 0 0
+        '''
+        
+        self.config6 = \
+        '''
+        2 0 0 0 0
+        0 0 0 0 0
+        0 0 0 0 0
+        3 0 0 0 0
+        3 0 0 0 0
+        3 4 4 0 0
+        '''
 
     def testTouch(self):
         self.assertEqual(self.tab.rows(), 6)
@@ -48,7 +87,22 @@ class TestTouch(unittest.TestCase):
         self.tab.get([0,0]).touch()
         self.tab.executeBubbles()
         self.assertEqual(str(self.tab), str(Board(self.config2)))
-
+        self.tab.get([2,2]).touch()
+        self.tab.executeBubbles()
+        self.assertEqual(str(self.tab), str(Board(self.config3)))
+        
+    def testTouc2(self):
+        tab = Board(self.config4)
+        tab.get([3, 2]).touch()
+        tab.executeBubbles()
+        self.assertEqual(str(tab), str(Board(self.config5)))
+        
+    def testTouch3(self):
+        tab = Board(self.config4)
+        tab.get([2, 1]).touch()
+        tab.executeBubbles()
+        self.assertEqual(str(tab), str(Board(self.config6)))
+        
 if __name__ == '__main__':
     unittest.main()
         
