@@ -59,20 +59,25 @@ class Board:
     
     #executeBubbles
     def executeBubbles(self):
-        if len(self.bubbles) == 0:
-            return True
-        lista = range(len(self.bubbles) -1, -1, -1)
-        for i in lista:
-            if self.bubbles[i].active:
-                self.bubbles[i].dowalk()
-        for i in lista:
-            if not self.bubbles[i].active: 
-                self.bubbles.remove(self.bubbles[i])
+        if len(self.bubbles) == 0: return True
+        
+        def onlyActives(x): return x.active
+        
+        step = filter(onlyActives, self.bubbles)        
+        
+        [bub.dowalk() for bub in step]
+                
+        self.bubbles = filter(onlyActives, self.bubbles)    
+                
         return self.executeBubbles()
     
     #get
     def get(self, position):
         if self.isValid(position): return self.board[(position[0], position[1])]
+        
+    def touch(self, position):
+        self.get(position).touch()
+        self.executeBubbles()
     
     def score(self):
         '''

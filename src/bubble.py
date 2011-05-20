@@ -3,12 +3,12 @@ from board import *
 from step import *
 
 class Bubble():
-    def __init__(self, board, position, step):
-        self.position = []
-        self.position.append(position[0])
-        self.position.append(position[1])        
+    def __init__(self, board, position, step):         
+        self.position = []       
+        self.position[:]=position[:]        
         self.board = board
-        self.step = step
+        self.step = []
+        self.step[:]=step[:]
         self.active = True
         
     def dowalk(self):

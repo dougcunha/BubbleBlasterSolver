@@ -4,7 +4,8 @@ from bubble import *
 
 class BubbleCell:
     def __init__(self, board, position, level):
-        self.position = position
+        self.position = []
+        self.position[:]=position[:]
         self.board = board
         self.level = level
         
@@ -43,7 +44,7 @@ class BubbleCell:
         
         
     def __repr__(self):
-        return "[%d,%d]=%d" % (self.position[0], self.position[1], self.level)
+        return "lvl%d" % (self.level)
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
