@@ -6,7 +6,9 @@ sys.path.append(realpath('../bbs'))
 
 import unittest
 import board
-from heuristcs import sumOfUndropedBubbles as scoreboard
+from heuristics import sumOfUndropedBubbles as scoreboard
+
+from games import game_1_90
 
 class TestBoard(unittest.TestCase):
     
@@ -37,15 +39,8 @@ class TestBoard(unittest.TestCase):
 class TestBoardStateAfterTouchs(unittest.TestCase):
     
     def setUp(self):
-        self.b = board.newboard(
-            """
-            4 2 2 2 1
-            0 4 1 3 4
-            0 4 0 3 4
-            2 0 0 1 4
-            3 4 0 4 2
-            1 1 0 4 1
-            """)
+        # game level.1.90
+        self.b = board.newboard(game_1_90)
         
     def testTouchOn00(self):
         board.touch(self.b, (0,0))
