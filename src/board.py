@@ -23,6 +23,18 @@ class Board:
     def reset(self):
         self.newBoard(self.config)
         
+    def __repr__(self):
+        config = ''
+        for row in range(0, len(self.config)):
+            for col in range(0, len(self.config[0])):
+                config += str(self.get([row, col]).level) + ' '
+            config += '\n'
+        return config
+    #clone
+    def clone(self):
+        config = str(self)                
+        return Board(config, self.max)
+        
     #newFromStr
     def newFromStr(self, str):
         row = 0
@@ -47,8 +59,6 @@ class Board:
             3
             >>> b.cols()
             4
-            >>> str(b)
-            '2-4-1-4-3-5-5-3-2-2-4-3'
         '''
         self.config = config
         self.board = {}
@@ -75,9 +85,12 @@ class Board:
     def get(self, position):
         if self.isValid(position): return self.board[(position[0], position[1])]
         
-    def touch(self, position):
+    def touch(self, position, restore):
         self.get(position).touch()
         self.executeBubbles()
+        score = self.score()
+        if restore: self.reset()
+        return score
     
     def score(self):
         '''
@@ -107,8 +120,6 @@ class Board:
            True
            >>> a.isequal([[1,0,3],[4,5,6],[7,8,9],[0,1,2]])
            False
-           >>> str(a)
-           '2-6-2-1-0-1-8-5-7-9-4-3'
         '''
         b = Board(config)
         return self.rows() == b.rows() and self.cols() == b.cols() and str(b) == str(self)
@@ -142,8 +153,8 @@ class Board:
         if self.rows() == 0: return 0
         return len(self.config[0])
     
-    def __repr__(self):
-        return "-".join([str(self.board[c].level) for c in self.board])
+    #def __repr__(self):
+    #    return "-".join([str(self.board[c].level) for c in self.board])
 
 if __name__ == '__main__':
     import doctest

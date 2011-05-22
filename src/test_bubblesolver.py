@@ -16,14 +16,6 @@ class TestBubbleSolver():
         2 3 2 3 4
         3 1 1 0 2
         ''', 3)
-        #self.board = Board('''
-        #0 2 2 0 1
-        #1 4 0 0 1
-        #1 4 3 2 2
-        #0 1 2 2 2
-        #2 4 4 4 0
-        #2 2 3 2 0
-        #''', 12)
         
     def testSoluction(self):
         proc = Procriator(self.board, 10, 1)
@@ -32,8 +24,6 @@ class TestBubbleSolver():
         winner = proc.check()
         while not winner and max > 0:
             proc.naturalSelection()
-            #for x in proc.generation:
-            #    print x, " -> ", x.score() 
             winner = proc.check()
             if winner: break
             max -=1
@@ -42,9 +32,7 @@ class TestBubbleSolver():
             print "There is a solution: %s" % (winner)
         else:
             for x in proc.generation:
-                print x , " -> ", x.score()
-        
-        
+                print x , " -> ", x.score()       
 
 
 
