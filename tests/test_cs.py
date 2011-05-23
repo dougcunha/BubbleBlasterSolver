@@ -9,17 +9,17 @@ import board
 import unittest
 import cs
 
-from games import game_1_90, game_1_92, game_6_87
+from games import *
 
 
 class TestCompleteSearch(unittest.TestCase):
 
 
     def setUp(self):
-        self.b = board.newboard(game_6_87)
+        self.b = board.newboard(game_1_90_m4)
 
     def testCS(self):
-        root = cs.Node(self.b.copy(), max_depth=7)
+        root = cs.Node(self.b.copy(), max_depth=4)
         root.eval()
         root.display()
         root.display_solutions() 

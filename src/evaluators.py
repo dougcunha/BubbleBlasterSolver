@@ -42,10 +42,13 @@ def wtfEvaluator(aboard, touch):
 def insaneEvaluator(aboard, touch):
     return sum([aboard.get(x).level for x in aboard.board if aboard.get(x).level == aboard.get(touch).level])
 
+def makeMeCrazyEvaluator(aboard, touch):
+    return sum([aboard.get(x).level for x in aboard.board if aboard.get(x).level <> aboard.get(touch).level])
+
 
 evaluatorsList = [randomEvaluator, semiRandomEvaluator, absoluteEvaluator,
                   absoluteScoreEvaluator, alternativeAbsRandomEvaluate,
-                  exoticEvaluator, wtfEvaluator, insaneEvaluator]
+                  exoticEvaluator, wtfEvaluator, insaneEvaluator, makeMeCrazyEvaluator]
 
 
 def avgEvaluators(aboard, touch):

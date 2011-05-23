@@ -1,6 +1,7 @@
 from board import *
 from bubblecell import *
 from bubble import *
+from show import *
 import solution
 from bubblesolver import *
 from step import *
@@ -20,9 +21,9 @@ class Ret():
         return "%s - %s => %d" % (self.func_name, str(self.touchs), self.score)
 
 def testSolution():
-    maxTouchs = 4
-    b = Board(games.game_1_90_m4, maxTouchs)
-    maxIters = 1000
+    maxTouchs = 6
+    b = Board(games.game_6_100_m6, maxTouchs)
+    maxIters = 2000
     done = False
     solutions = []    
     while maxIters > 0:
@@ -40,13 +41,13 @@ def testSolution():
                 done = True                
         maxIters -= 1
         solutions.append(Ret(f, touchs, score)) 
-        if done: break
-    
+        if done: break   
            
     best = min(solutions, key=lambda x: x.score)
     worst = max(solutions, key=lambda x: x.score)
     print "Best -> " + str(best)
     print "Worst -> " + str(worst)  
+    showSolution(b, best.touchs)
 
 if __name__ == '__main__':
     testSolution()
